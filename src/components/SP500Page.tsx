@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import type { StockAnalysis } from '../types'
-import { Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface SP500PageProps {
     onStockSelect: (stock: StockAnalysis, market: 'sp500') => void
@@ -127,7 +127,7 @@ export function SP500Page({ onStockSelect }: SP500PageProps) {
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600 dark:text-gray-300">S&P 500 verileri yükleniyor...</p>
+                    <p className="mt-4 text-gray-600 dark:text-gray-300">S&P 100 verileri yükleniyor...</p>
                 </div>
             </div>
         )
@@ -138,7 +138,7 @@ export function SP500Page({ onStockSelect }: SP500PageProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                        S&P 500 Hisse Analizleri
+                        S&P 100 Hisse Analizleri
                     </h1>
                     <p className="text-gray-600 dark:text-gray-300">
                         Amerika'nın en büyük 500 şirketinin AI destekli analizi
@@ -182,14 +182,15 @@ export function SP500Page({ onStockSelect }: SP500PageProps) {
                                     <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Rating Skoru
                                     </th>
-                                    <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        İşlemler
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 {paginatedStocks.map((stock) => (
-                                    <tr key={stock.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr
+                                        key={stock.id}
+                                        onClick={() => onStockSelect(stock, 'sp500')}
+                                        className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                                    >
                                         <td className="px-3 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900 dark:text-white">
                                                 {stock.symbol}
@@ -209,15 +210,6 @@ export function SP500Page({ onStockSelect }: SP500PageProps) {
                                             <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold ${getScoreColor(getRatingScore(stock.final_rating))}`}>
                                                 {getRatingScore(stock.final_rating).toFixed(1)}
                                             </span>
-                                        </td>
-                                        <td className="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button
-                                                onClick={() => onStockSelect(stock, 'sp500')}
-                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 transition-colors"
-                                            >
-                                                <Eye className="w-4 h-4 mr-1" />
-                                                Detay
-                                            </button>
                                         </td>
                                     </tr>
                                 ))}

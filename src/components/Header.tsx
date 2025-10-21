@@ -25,8 +25,8 @@ export function Header({ currentPage, onPageChange }: HeaderProps) {
                             <button
                                 onClick={() => onPageChange('home')}
                                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPage === 'home'
-                                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                                        : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                             >
                                 Ana Sayfa
@@ -34,20 +34,29 @@ export function Header({ currentPage, onPageChange }: HeaderProps) {
                             <button
                                 onClick={() => onPageChange('sp500')}
                                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPage === 'sp500'
-                                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                                        : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                             >
-                                S&P 500
+                                S&P 100
                             </button>
                             <button
                                 onClick={() => onPageChange('bist100')}
                                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPage === 'bist100'
-                                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                                        : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                             >
                                 BIST 100
+                            </button>
+                            <button
+                                onClick={() => onPageChange('margin-of-safety')}
+                                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPage === 'margin-of-safety'
+                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    }`}
+                            >
+                                Margin of Safety
                             </button>
                         </nav>
                     </div>

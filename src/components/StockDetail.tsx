@@ -109,7 +109,7 @@ export function StockDetail({ stock, market, onBack }: StockDetailProps) {
                             {stock.symbol} - {stock.company_name}
                         </h1>
                         <p className="text-gray-600 dark:text-gray-300 mt-1">
-                            {stock.sector} | {market === 'sp500' ? 'S&P 500' : 'BIST 100'}
+                            {stock.sector} | {market === 'sp500' ? 'S&P 100' : 'BIST 100'}
                         </p>
                     </div>
                 </div>

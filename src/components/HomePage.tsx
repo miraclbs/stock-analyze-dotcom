@@ -14,7 +14,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                         AI Destekli Hisse Analizi
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        S&P 500 ve BIST 100 hisselerinin detaylı yapay zeka analizi ile
+                        S&P 100 ve BIST 100 hisselerinin detaylı yapay zeka analizi ile
                         yatırım kararlarınızı destekleyin
                     </p>
                 </div>
@@ -28,11 +28,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                         <div className="flex items-center mb-4">
                             <TrendingUp className="w-8 h-8 text-blue-600 mr-3" />
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                                S&P 500 Analizleri
+                                S&P 100 Analizleri
                             </h2>
                         </div>
                         <p className="text-gray-600 dark:text-gray-300 mb-4">
-                            Amerika'nın en büyük 500 şirketinin detaylı AI analizi.
+                            Amerika'nın en büyük 100 şirketinin detaylı AI analizi.
                             Fundamental, teknik ve makroekonomik değerlendirmeler.
                         </p>
                         <div className="flex items-center text-blue-600 font-medium">

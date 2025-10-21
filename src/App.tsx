@@ -5,9 +5,10 @@ import { HomePage } from './components/HomePage'
 import { SP500Page } from './components/SP500Page'
 import { BIST100Page } from './components/BIST100Page'
 import { StockDetail } from './components/StockDetail'
+import { MarginOfSafetyPage } from './components/MarginOfSafetyPage'
 import type { StockAnalysis } from './types'
 
-type Page = 'home' | 'sp500' | 'bist100' | 'stock-detail'
+type Page = 'home' | 'sp500' | 'bist100' | 'margin-of-safety' | 'stock-detail'
 
 interface SelectedStock {
   stock: StockAnalysis
@@ -45,6 +46,8 @@ function App() {
         return <SP500Page onStockSelect={handleStockSelect} />
       case 'bist100':
         return <BIST100Page onStockSelect={handleStockSelect} />
+      case 'margin-of-safety':
+        return <MarginOfSafetyPage />
       case 'stock-detail':
         return selectedStock ? (
           <StockDetail

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import type { StockAnalysis } from '../types'
-import { Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface BIST100PageProps {
     onStockSelect: (stock: StockAnalysis, market: 'bist100') => void
@@ -182,14 +182,16 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
                                     <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Rating Skoru
                                     </th>
-                                    <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        İşlemler
-                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 {paginatedStocks.map((stock) => (
-                                    <tr key={stock.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr
+                                        key={stock.id}
+                                        className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+                                        onClick={() => onStockSelect(stock, 'bist100')}
+                                    >
                                         <td className="px-3 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900 dark:text-white">
                                                 {stock.symbol}
@@ -210,15 +212,7 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
                                                 {getRatingScore(stock.final_rating).toFixed(1)}
                                             </span>
                                         </td>
-                                        <td className="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button
-                                                onClick={() => onStockSelect(stock, 'bist100')}
-                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-green-600 bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 transition-colors"
-                                            >
-                                                <Eye className="w-4 h-4 mr-1" />
-                                                Detay
-                                            </button>
-                                        </td>
+
                                     </tr>
                                 ))}
                             </tbody>
