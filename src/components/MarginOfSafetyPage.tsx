@@ -163,8 +163,8 @@ export function MarginOfSafetyPage() {
                     </div>
                 </div>
 
-                {/* Data Table */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
+                {/* Desktop Table View */}
+                <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead className="bg-gray-50 dark:bg-gray-700">
@@ -276,78 +276,130 @@ export function MarginOfSafetyPage() {
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    {/* Pagination */}
-                    {totalPages > 1 && (
-                        <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
-                            <div className="flex-1 flex justify-between sm:hidden">
-                                <button
-                                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                                    disabled={currentPage === 1}
-                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Önceki
-                                </button>
-                                <button
-                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                                    disabled={currentPage === totalPages}
-                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Sonraki
-                                </button>
-                            </div>
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700 dark:text-gray-200">
-                                        <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span>
-                                        {' - '}
-                                        <span className="font-medium">
-                                            {Math.min(currentPage * itemsPerPage, filteredData.length)}
-                                        </span>
-                                        {' / '}
-                                        <span className="font-medium">{filteredData.length}</span>
-                                        {' '}sonuç gösteriliyor
-                                    </p>
+                {/* Mobile Card View */}
+                <div className="lg:hidden space-y-4 mb-8">
+                    {paginatedData.map((item) => (
+                        <div
+                            key={item.id}
+                            className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-4"
+                        >
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center space-x-3">
+                                    <div className="text-lg font-bold text-gray-900 dark:text-white">
+                                        {item.symbol}
+                                    </div>
+                                    <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getMarginColor(item.margin_of_safety_percent || 0)}`}>
+                                        {(item.margin_of_safety_percent || 0) > 0 ? '+' : ''}{(item.margin_of_safety_percent || 0).toFixed(1)}%
+                                    </div>
                                 </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                        <button
-                                            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                                            disabled={currentPage === 1}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            <ChevronLeft className="h-5 w-5" />
-                                        </button>
-
-                                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                                            const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
-                                            return (
-                                                <button
-                                                    key={pageNum}
-                                                    onClick={() => setCurrentPage(pageNum)}
-                                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === pageNum
-                                                        ? 'z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-600 dark:text-blue-200'
-                                                        : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
-                                                        }`}
-                                                >
-                                                    {pageNum}
-                                                </button>
-                                            )
-                                        })}
-
-                                        <button
-                                            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                                            disabled={currentPage === totalPages}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            <ChevronRight className="h-5 w-5" />
-                                        </button>
-                                    </nav>
+                            </div>
+                            <div className="text-sm text-gray-900 dark:text-white font-medium mb-3">
+                                {item.company_name}
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">Mevcut Fiyat:</span>
+                                    <span className="text-gray-900 dark:text-white font-medium">${item.price.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">İçsel Değer:</span>
+                                    <span className="text-gray-900 dark:text-white font-medium">${(item.intrinsic_value || 0).toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">P/E Oranı:</span>
+                                    <span className="text-gray-900 dark:text-white font-medium">{item.pe_ratio.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">Büyüme:</span>
+                                    <span className="text-gray-900 dark:text-white font-medium">{item.growth_percent?.toFixed(1) || 'N/A'}%</span>
+                                </div>
+                            </div>
+                            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                                        {item.sector}
+                                    </span>
+                                    <span className="text-gray-500 dark:text-gray-400">
+                                        Piyasa Değeri: ${(item.market_cap / 1000000000).toFixed(2)}B
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ))}
                 </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
+                        <div className="flex-1 flex justify-between sm:hidden">
+                            <button
+                                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                disabled={currentPage === 1}
+                                className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Önceki
+                            </button>
+                            <button
+                                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                disabled={currentPage === totalPages}
+                                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Sonraki
+                            </button>
+                        </div>
+                        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p className="text-sm text-gray-700 dark:text-gray-200">
+                                    <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span>
+                                    {' - '}
+                                    <span className="font-medium">
+                                        {Math.min(currentPage * itemsPerPage, filteredData.length)}
+                                    </span>
+                                    {' / '}
+                                    <span className="font-medium">{filteredData.length}</span>
+                                    {' '}sonuç gösteriliyor
+                                </p>
+                            </div>
+                            <div>
+                                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                    <button
+                                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                        disabled={currentPage === 1}
+                                        className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <ChevronLeft className="h-5 w-5" />
+                                    </button>
+
+                                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                                        const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
+                                        return (
+                                            <button
+                                                key={pageNum}
+                                                onClick={() => setCurrentPage(pageNum)}
+                                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === pageNum
+                                                    ? 'z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-600 dark:text-blue-200'
+                                                    : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
+                                                    }`}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        )
+                                    })}
+
+                                    <button
+                                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <ChevronRight className="h-5 w-5" />
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

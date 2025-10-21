@@ -164,8 +164,8 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
                     </div>
                 </div>
 
-                {/* Stocks Table */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
+                {/* Desktop Table View */}
+                <div className="hidden md:block bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead className="bg-gray-50 dark:bg-gray-700">
@@ -218,86 +218,119 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    {/* Pagination - Same as SP500 page */}
-                    {totalPages > 1 && (
-                        <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
-                            <div className="flex-1 flex justify-between sm:hidden">
-                                <button
-                                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                                    disabled={currentPage === 1}
-                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
-                                >
-                                    Önceki
-                                </button>
-                                <button
-                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                                    disabled={currentPage === totalPages}
-                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
-                                >
-                                    Sonraki
-                                </button>
-                            </div>
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700 dark:text-gray-300">
-                                        <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span>
-                                        {' - '}
-                                        <span className="font-medium">
-                                            {Math.min(currentPage * itemsPerPage, filteredStocks.length)}
-                                        </span>
-                                        {' / '}
-                                        <span className="font-medium">{filteredStocks.length}</span>
-                                        {' sonuç gösteriliyor'}
-                                    </p>
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4 mb-8">
+                    {paginatedStocks.map((stock) => (
+                        <div
+                            key={stock.id}
+                            onClick={() => onStockSelect(stock, 'bist100')}
+                            className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-4 cursor-pointer hover:shadow-md transition-shadow"
+                        >
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center space-x-3">
+                                    <div className="text-lg font-bold text-gray-900 dark:text-white">
+                                        {stock.symbol}
+                                    </div>
+                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${getScoreColor(getRatingScore(stock.final_rating))}`}>
+                                        {getRatingScore(stock.final_rating).toFixed(1)}
+                                    </span>
                                 </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                        <button
-                                            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                                            disabled={currentPage === 1}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
-                                        >
-                                            <ChevronLeft className="h-5 w-5" />
-                                        </button>
-                                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                                            let pageNumber
-                                            if (totalPages <= 5) {
-                                                pageNumber = i + 1
-                                            } else if (currentPage <= 3) {
-                                                pageNumber = i + 1
-                                            } else if (currentPage >= totalPages - 2) {
-                                                pageNumber = totalPages - 4 + i
-                                            } else {
-                                                pageNumber = currentPage - 2 + i
-                                            }
-
-                                            return (
-                                                <button
-                                                    key={pageNumber}
-                                                    onClick={() => setCurrentPage(pageNumber)}
-                                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === pageNumber
-                                                        ? 'z-10 bg-green-50 dark:bg-green-900 border-green-500 text-green-600 dark:text-green-200'
-                                                        : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                                                        }`}
-                                                >
-                                                    {pageNumber}
-                                                </button>
-                                            )
-                                        })}
-                                        <button
-                                            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                                            disabled={currentPage === totalPages}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
-                                        >
-                                            <ChevronRight className="h-5 w-5" />
-                                        </button>
-                                    </nav>
+                            </div>
+                            <div className="text-sm text-gray-900 dark:text-white font-medium mb-2">
+                                {stock.company_name}
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    {stock.sector}
+                                </span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                    Detaylar için dokunun →
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ))}
                 </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
+                        <div className="flex-1 flex justify-between sm:hidden">
+                            <button
+                                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                disabled={currentPage === 1}
+                                className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                            >
+                                Önceki
+                            </button>
+                            <button
+                                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                disabled={currentPage === totalPages}
+                                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                            >
+                                Sonraki
+                            </button>
+                        </div>
+                        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p className="text-sm text-gray-700 dark:text-gray-300">
+                                    <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span>
+                                    {' - '}
+                                    <span className="font-medium">
+                                        {Math.min(currentPage * itemsPerPage, filteredStocks.length)}
+                                    </span>
+                                    {' / '}
+                                    <span className="font-medium">{filteredStocks.length}</span>
+                                    {' sonuç gösteriliyor'}
+                                </p>
+                            </div>
+                            <div>
+                                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                    <button
+                                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                        disabled={currentPage === 1}
+                                        className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                                    >
+                                        <ChevronLeft className="h-5 w-5" />
+                                    </button>
+                                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                                        let pageNumber
+                                        if (totalPages <= 5) {
+                                            pageNumber = i + 1
+                                        } else if (currentPage <= 3) {
+                                            pageNumber = i + 1
+                                        } else if (currentPage >= totalPages - 2) {
+                                            pageNumber = totalPages - 4 + i
+                                        } else {
+                                            pageNumber = currentPage - 2 + i
+                                        }
+
+                                        return (
+                                            <button
+                                                key={pageNumber}
+                                                onClick={() => setCurrentPage(pageNumber)}
+                                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === pageNumber
+                                                    ? 'z-10 bg-green-50 dark:bg-green-900 border-green-500 text-green-600 dark:text-green-200'
+                                                    : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                {pageNumber}
+                                            </button>
+                                        )
+                                    })}
+                                    <button
+                                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                                    >
+                                        <ChevronRight className="h-5 w-5" />
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

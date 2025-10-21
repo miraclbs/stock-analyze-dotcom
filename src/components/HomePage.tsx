@@ -20,7 +20,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 </div>
 
                 {/* Feature Cards */}
-                <div className="grid md:grid-cols-2 gap-8 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
                     <div
                         onClick={() => onNavigate('sp500')}
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
@@ -55,6 +55,25 @@ export function HomePage({ onNavigate }: HomePageProps) {
                             Yerel piyasa koşulları ve global etkileşimler.
                         </p>
                         <div className="flex items-center text-green-600 font-medium">
+                            Analizleri İncele →
+                        </div>
+                    </div>
+
+                    <div
+                        onClick={() => onNavigate('margin-of-safety')}
+                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                    >
+                        <div className="flex items-center mb-4">
+                            <AlertCircle className="w-8 h-8 text-purple-600 mr-3" />
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                Margin of Safety
+                            </h2>
+                        </div>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4">
+                            S&P 100 hisselerinin güvenlik marjı analizi.
+                            İçsel değer hesaplamaları ve yatırım fırsatları.
+                        </p>
+                        <div className="flex items-center text-purple-600 font-medium">
                             Analizleri İncele →
                         </div>
                     </div>
