@@ -38,7 +38,7 @@ export function Header({ currentPage, onPageChange }: HeaderProps) {
                     >
                         <TrendingUp className="w-8 h-8 text-blue-600" />
                         <span className="text-xl font-bold text-gray-900 dark:text-white">
-                            Yatırım Analizi
+                            Mirac|App
                         </span>
                     </button>
 
