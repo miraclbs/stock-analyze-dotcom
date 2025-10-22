@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { Header } from './components/Header'
 import { HomePage } from './components/HomePage'
@@ -8,70 +8,67 @@ import { StockDetail } from './components/StockDetail'
 import { MarginOfSafetyPage } from './components/MarginOfSafetyPage'
 import type { StockAnalysis } from './types'
 
-type Page = 'home' | 'sp500' | 'bist100' | 'margin-of-safety' | 'stock-detail'
-
-interface SelectedStock {
-  stock: StockAnalysis
-  market: 'sp500' | 'bist100'
-}
-
-function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home')
-  const [selectedStock, setSelectedStock] = useState<SelectedStock | null>(null)
-
-  const handlePageChange = (page: string) => {
-    setCurrentPage(page as Page)
-    setSelectedStock(null)
-  }
+// AppContent component that uses router hooks
+function AppContent() {
+  const navigate = useNavigate()
 
   const handleStockSelect = (stock: StockAnalysis, market: 'sp500' | 'bist100') => {
-    setSelectedStock({ stock, market })
-    setCurrentPage('stock-detail')
+    // Store stock data in sessionStorage to persist across refreshes
+    sessionStorage.setItem('selectedStock', JSON.stringify({ stock, market }))
+    navigate(`/stock/${stock.symbol}`)
   }
 
   const handleBackToList = () => {
-    if (selectedStock) {
-      setCurrentPage(selectedStock.market)
-      setSelectedStock(null)
+    const stockData = sessionStorage.getItem('selectedStock')
+    if (stockData) {
+      const { market } = JSON.parse(stockData)
+      navigate(`/${market}`)
     } else {
-      setCurrentPage('home')
-    }
-  }
-
-  const renderCurrentPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage onNavigate={handlePageChange} />
-      case 'sp500':
-        return <SP500Page onStockSelect={handleStockSelect} />
-      case 'bist100':
-        return <BIST100Page onStockSelect={handleStockSelect} />
-      case 'margin-of-safety':
-        return <MarginOfSafetyPage />
-      case 'stock-detail':
-        return selectedStock ? (
-          <StockDetail
-            stock={selectedStock.stock}
-            market={selectedStock.market}
-            onBack={handleBackToList}
-          />
-        ) : (
-          <HomePage onNavigate={handlePageChange} />
-        )
-      default:
-        return <HomePage onNavigate={handlePageChange} />
+      navigate('/')
     }
   }
 
   return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/sp500" element={<SP500Page onStockSelect={handleStockSelect} />} />
+        <Route path="/bist100" element={<BIST100Page onStockSelect={handleStockSelect} />} />
+        <Route path="/margin-of-safety" element={<MarginOfSafetyPage />} />
+        <Route path="/stock/:symbol" element={<StockDetailRoute onBack={handleBackToList} />} />
+      </Routes>
+    </div>
+  )
+}
+
+// Separate component for stock detail route
+function StockDetailRoute({ onBack }: { onBack: () => void }) {
+  const stockData = sessionStorage.getItem('selectedStock')
+
+  if (!stockData) {
+    // Redirect to home if no stock data found
+    window.location.href = '/'
+    return null
+  }
+
+  const { stock, market } = JSON.parse(stockData)
+
+  return (
+    <StockDetail
+      stock={stock}
+      market={market}
+      onBack={onBack}
+    />
+  )
+}
+
+function App() {
+  return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-        <Header
-          currentPage={currentPage === 'stock-detail' ? (selectedStock?.market || 'home') : currentPage}
-          onPageChange={handlePageChange}
-        />
-        {renderCurrentPage()}
-      </div>
+      <Router>
+        <AppContent />
+      </Router>
     </ThemeProvider>
   )
 }

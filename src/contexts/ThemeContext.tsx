@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 
 interface ThemeContextType {
@@ -8,12 +8,41 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
+// Function to get initial theme from localStorage or system preference
+const getInitialTheme = (): boolean => {
+    // Check if we're in browser environment
+    if (typeof window === 'undefined') return false
+
+    // First check localStorage
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+        return savedTheme === 'dark'
+    }
+
+    // If no saved theme, check system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return true
+    }
+
+    return false
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [isDark, setIsDark] = useState(false)
+    const [isDark, setIsDark] = useState(getInitialTheme)
+
+    // Apply theme to document on mount and when theme changes
+    useEffect(() => {
+        if (isDark) {
+            document.documentElement.classList.add('dark')
+            localStorage.setItem('theme', 'dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+            localStorage.setItem('theme', 'light')
+        }
+    }, [isDark])
 
     const toggleTheme = () => {
         setIsDark(!isDark)
-        document.documentElement.classList.toggle('dark', !isDark)
     }
 
     return (

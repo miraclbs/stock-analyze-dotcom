@@ -29,7 +29,7 @@ Analizi Türkçe olarak, net ve anlaşılır bir şekilde hazırla. Objektif ol 
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4.1-mini",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "system",
@@ -40,7 +40,7 @@ Analizi Türkçe olarak, net ve anlaşılır bir şekilde hazırla. Objektif ol 
                     content: prompt
                 }
             ],
-            max_tokens: 3000,
+            max_tokens: 4000,
             temperature: 0.7
         })
 

@@ -1,30 +1,30 @@
 import { Sun, Moon, TrendingUp, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 
-interface HeaderProps {
-    currentPage: string
-    onPageChange: (page: string) => void
-}
-
-export function Header({ currentPage, onPageChange }: HeaderProps) {
+export function Header() {
     const { isDark, toggleTheme } = useTheme()
+    const location = useLocation()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     const menuItems = [
-        { id: 'home', label: 'Ana Sayfa' },
-        { id: 'sp500', label: 'S&P 100' },
-        { id: 'bist100', label: 'BIST 100' },
-        { id: 'margin-of-safety', label: 'Margin of Safety' }
+        { id: 'home', label: 'Ana Sayfa', path: '/' },
+        { id: 'sp500', label: 'S&P 100', path: '/sp500' },
+        { id: 'bist100', label: 'BIST 100', path: '/bist100' },
+        { id: 'margin-of-safety', label: 'Margin of Safety', path: '/margin-of-safety' }
     ]
 
     const handleMobileMenuToggle = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)
     }
 
-    const handleMenuItemClick = (pageId: string) => {
-        onPageChange(pageId)
-        setIsMobileMenuOpen(false)
+
+
+    const isActivePage = (path: string) => {
+        if (path === '/' && location.pathname === '/') return true
+        if (path !== '/' && location.pathname.startsWith(path)) return true
+        return false
     }
 
     return (
@@ -32,29 +32,29 @@ export function Header({ currentPage, onPageChange }: HeaderProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <button
-                        onClick={() => onPageChange('home')}
+                    <Link
+                        to="/"
                         className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
                     >
                         <TrendingUp className="w-8 h-8 text-blue-600" />
                         <span className="text-xl font-bold text-gray-900 dark:text-white">
                             Mirac|App
                         </span>
-                    </button>
+                    </Link>
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex space-x-8">
                         {menuItems.map((item) => (
-                            <button
+                            <Link
                                 key={item.id}
-                                onClick={() => onPageChange(item.id)}
-                                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPage === item.id
+                                to={item.path}
+                                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActivePage(item.path)
                                     ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                                     : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                             >
                                 {item.label}
-                            </button>
+                            </Link>
                         ))}
                     </nav>
 
@@ -90,16 +90,17 @@ export function Header({ currentPage, onPageChange }: HeaderProps) {
                     <div className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg z-40">
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                             {menuItems.map((item) => (
-                                <button
+                                <Link
                                     key={item.id}
-                                    onClick={() => handleMenuItemClick(item.id)}
-                                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${currentPage === item.id
+                                    to={item.path}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${isActivePage(item.path)
                                         ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-700'
                                         }`}
                                 >
                                     {item.label}
-                                </button>
+                                </Link>
                             ))}
                         </div>
                     </div>

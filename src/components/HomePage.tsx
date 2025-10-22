@@ -1,10 +1,7 @@
 import { TrendingUp, BarChart3, AlertCircle } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-interface HomePageProps {
-    onNavigate: (page: string) => void
-}
-
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage() {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -21,9 +18,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
                 {/* Feature Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
-                    <div
-                        onClick={() => onNavigate('sp500')}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                    <Link
+                        to="/sp500"
+                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700 block"
                     >
                         <div className="flex items-center mb-4">
                             <TrendingUp className="w-8 h-8 text-blue-600 mr-3" />
@@ -38,11 +35,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                         <div className="flex items-center text-blue-600 font-medium">
                             Analizleri İncele →
                         </div>
-                    </div>
+                    </Link>
 
-                    <div
-                        onClick={() => onNavigate('bist100')}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                    <Link
+                        to="/bist100"
+                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700 block"
                     >
                         <div className="flex items-center mb-4">
                             <BarChart3 className="w-8 h-8 text-green-600 mr-3" />
@@ -57,11 +54,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                         <div className="flex items-center text-green-600 font-medium">
                             Analizleri İncele →
                         </div>
-                    </div>
+                    </Link>
 
-                    <div
-                        onClick={() => onNavigate('margin-of-safety')}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                    <Link
+                        to="/margin-of-safety"
+                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700 block"
                     >
                         <div className="flex items-center mb-4">
                             <AlertCircle className="w-8 h-8 text-purple-600 mr-3" />
@@ -76,7 +73,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                         <div className="flex items-center text-purple-600 font-medium">
                             Analizleri İncele →
                         </div>
-                    </div>
+                    </Link>
                 </div>
 
                 {/* Features */}
@@ -121,6 +118,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
