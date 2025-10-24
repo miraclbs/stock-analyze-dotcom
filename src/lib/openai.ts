@@ -29,7 +29,7 @@ Analizi Türkçe olarak, net ve anlaşılır bir şekilde hazırla. Objektif ol 
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "gpt-4o-mini",
             messages: [
                 {
                     role: "system",
