@@ -155,7 +155,7 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
                                     muted
                                     playsInline
                                     className="w-full h-auto"
-                                    src="/Loading_screen_animation_202603262143.mp4"
+                                    src="/loading_animation.mp4"
                                 />
                             </div>
 

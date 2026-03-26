@@ -96,7 +96,7 @@ export function StockList({ market }: StockListProps) {
                                     muted
                                     playsInline
                                     className="w-full h-auto"
-                                    src="/Loading_screen_animation_202603262143.mp4"
+                                    src="/loading_animation.mp4"
                                 />
                             </div>
 
