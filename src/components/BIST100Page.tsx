@@ -133,6 +133,72 @@ export function BIST100Page({ onStockSelect }: BIST100PageProps) {
         )
     }
 
+    if (stocks.length === 0) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                            BIST 100 Hisse Analizleri
+                        </h1>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Türkiye'nin en büyük 100 şirketinin AI destekli analizi
+                        </p>
+                    </div>
+
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div className="p-8 flex flex-col items-center">
+                            <div className="w-full max-w-md mb-8 rounded-xl overflow-hidden shadow-lg">
+                                <video
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className="w-full h-auto"
+                                    src="/Loading_screen_animation_202603262143.mp4"
+                                />
+                            </div>
+
+                            <div className="space-y-4 text-center max-w-lg">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-sm font-medium">
+                                    <span className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                                    </span>
+                                    Analiz Devam Ediyor
+                                </div>
+
+                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                    BIST 100 Verileri Hazırlanıyor
+                                </h2>
+
+                                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">n8n</span> otomasyon sistemi ile BIST 100 hisselerinin tüm finansal verileri çekiliyor, 
+                                    yapay zeka destekli kapsamlı analiz gerçekleştiriliyor ve sonuçlar veritabanına kaydediliyor.
+                                </p>
+
+                                <div className="pt-4 space-y-3">
+                                    <div className="flex items-center gap-3 text-left p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                        <span className="text-xl">📊</span>
+                                        <span className="text-sm text-gray-700 dark:text-gray-300">Fiyat, bilanço ve gelir tablosu verileri çekiliyor</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-left p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                        <span className="text-xl">🤖</span>
+                                        <span className="text-sm text-gray-700 dark:text-gray-300">AI ile temel ve teknik analiz yapılıyor</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-left p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                        <span className="text-xl">⏳</span>
+                                        <span className="text-sm text-gray-700 dark:text-gray-300">Veriler hazır olduğunda bu sayfada otomatik görünecek</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
